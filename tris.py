@@ -1,6 +1,7 @@
 """
-    Upload sur Git
     Graph et temps de calcul moyenne
+    Mettre des commentaires
+    Faire le pdf
 """
 import random
 import time
@@ -84,7 +85,7 @@ taillesTableau = [10, 100, 1000, 10000, 100000]
 
 for taille in taillesTableau:
     tab = makeRandomTab(taille)
-    """
+    
     fileWrite = open("benchmark/triBulle_"+str(taille)+".txt", "w")
     timeBegin = time.time()
     triBulle(tab.copy())
@@ -105,7 +106,8 @@ for taille in taillesTableau:
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
-"""
+
+    #Calcul average for each sorts with 100 turns
     fileWrite = open("benchmark/average/triBulle_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
@@ -116,7 +118,7 @@ for taille in taillesTableau:
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
     fileWrite.close()
-"""
+
     fileWrite = open("benchmark/average/triFusion_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
@@ -138,4 +140,3 @@ for taille in taillesTableau:
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
     fileWrite.close()
-"""
