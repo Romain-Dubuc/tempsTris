@@ -6,7 +6,7 @@ import random
 import time
 import sys
 
-sys.setrecursionlimit(10000)
+sys.setrecursionlimit(1000000)
 
 def make_random_tab(taille_tab):
     """
@@ -62,23 +62,17 @@ def tri_rapide(tab_rapide, debut, fin):
         tri_rapide(tab_rapide, pivot+1, fin)
     return tab_rapide
 
-def insert_value(tab_insert, value, cpt=0):
-    """
-    Insert value into a sorted array
-    """
-    if (len(tab_insert) == cpt or tab_insert[cpt] > value):
-        tab_insert.insert(cpt, value)
-    else:
-        insert_value(tab_insert, value, cpt+1)
-
 def fusion(tab_a, tab_b):
     """
-    Fusion two sorted arrays
+    Merge two sorted arrays
     """
     if len(tab_b) == 0:
         return tab_a
-    insert_value(tab_a, tab_b.pop())
-    return fusion(tab_a, tab_b)
+    if len(tab_a) == 0:
+        return tab_b
+    if tab_a[0] < tab_b[0]:
+        return [tab_a.pop(0)] + fusion(tab_a, tab_b)
+    return [tab_b.pop(0)] + fusion(tab_a, tab_b)
 
 def tri_fusion(tab_fusion):
     """
