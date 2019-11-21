@@ -89,7 +89,7 @@ def tri_fusion(tab_fusion):
     return fusion(tri_fusion(tab_fusion[:len(tab_fusion)//2]),
                   tri_fusion(tab_fusion[len(tab_fusion)//2:]))
 
-TAILLES_TABLEAU = [10, 100, 1000, 10000]
+TAILLES_TABLEAU = [10, 100, 1000, 10000, 100000]
 
 for taille in TAILLES_TABLEAU:
     tab = make_random_tab(taille)
