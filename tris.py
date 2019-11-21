@@ -1,6 +1,5 @@
 """
     Graph et temps de calcul moyenne
-    Mettre des commentaires
     Faire le pdf
 """
 import random
@@ -9,133 +8,143 @@ import sys
 
 sys.setrecursionlimit(10000)
 
-"""
+def make_random_tab(taille_tab):
+    """
     Make an array with random number and a size given
-"""
-def makeRandomTab(taille):
-    tab = []
-    for i in range(taille):
-        tab.append(random.randint(0, 100))
-    return tab
+    """
+    tab_make = []
+    for _ in range(taille_tab):
+        tab_make.append(random.randint(0, 100))
+    return tab_make
 
-"""
+def permute(tab_permute, index_a, index_b):
+    """
     This function swap two numbers into an array
-"""
-def permute(tab, indexA, indexB):
-    temp = tab[indexA]
-    tab[indexA] = tab[indexB]
-    tab[indexB] = temp
-    return tab
+    """
+    temp = tab_permute[index_a]
+    tab_permute[index_a] = tab_permute[index_b]
+    tab_permute[index_b] = temp
+    return tab_permute
 
-"""
+def tri_bulle(tab_bulle):
+    """
     Sort an array with bubble sort method
-"""
-def triBulle(tab):
-    for i in range(len(tab)-1, -1, -1):
-        for j in range(i):
-            if (tab[i] < tab[j]):
-                permute(tab, i, j)
-    return tab
+    """
+    for index_bulle in range(len(tab_bulle)-1, -1, -1):
+        for index_bulle_2 in range(index_bulle):
+            if tab_bulle[index_bulle] < tab_bulle[index_bulle_2]:
+                permute(tab_bulle, index_bulle, index_bulle_2)
+    return tab_bulle
 
-"""
-
-"""
-def partitionner(tab, debut, fin):
-    pivot = tab[debut]
-    permute(tab, debut, fin)
+def partitionner(tab_part, debut, fin):
+    """
+    Take a pivot to the begin of the array and swap with the last array's number
+    Place lesser number to the begin of the array
+    Finaly, swap the first greater number with the pivot
+    """
+    pivot = tab_part[debut]
+    permute(tab_part, debut, fin)
     compteur = debut
-    for i in range(debut, fin):
-        if (tab[i] < pivot):
-            permute(tab, compteur, i)
+    for index_tab in range(debut, fin):
+        if tab_part[index_tab] < pivot:
+            permute(tab_part, compteur, index_tab)
             compteur += 1
-    permute(tab, compteur, fin)
+    permute(tab_part, compteur, fin)
     return compteur
 
-"""
+def tri_rapide(tab_rapide, debut, fin):
+    """
     Sort an array with fast sort method
-"""
-def triRapide(tab, debut, fin):
-    if (debut < fin):
-        pivot = partitionner(tab, debut, fin)
-        triRapide(tab, debut, pivot-1)
-        triRapide(tab, pivot+1, fin)
-    return tab
+    """
+    if debut < fin:
+        pivot = partitionner(tab_rapide, debut, fin)
+        tri_rapide(tab_rapide, debut, pivot-1)
+        tri_rapide(tab_rapide, pivot+1, fin)
+    return tab_rapide
 
-def insertValue(tab, value, cpt = 0):
-    if (len(tab) == cpt or tab[cpt] > value):
-        tab.insert(cpt, value)
-        return tab
-    insertValue(tab, value, cpt+1)
+def insert_value(tab_insert, value, cpt=0):
+    """
+    Insert value into a sorted array
+    """
+    if (len(tab_insert) == cpt or tab_insert[cpt] > value):
+        tab_insert.insert(cpt, value)
+    else:
+        insert_value(tab_insert, value, cpt+1)
 
-def fusion(tabA, tabB):
-    if (len(tabB) == 0):
-        return tabA
-    insertValue(tabA, tabB.pop())
-    return fusion(tabA, tabB)
+def fusion(tab_a, tab_b):
+    """
+    Fusion two sorted arrays
+    """
+    if len(tab_b) == 0:
+        return tab_a
+    insert_value(tab_a, tab_b.pop())
+    return fusion(tab_a, tab_b)
 
-"""
+def tri_fusion(tab_fusion):
+    """
     Sort an array with fusion sort methode
-"""
-def triFusion(tab):
-    if (len(tab) == 1):
-        return tab
-    return fusion(triFusion(tab[:len(tab)//2]), triFusion(tab[len(tab)//2:]))
+    """
+    if len(tab_fusion) == 1:
+        return tab_fusion
+    return fusion(tri_fusion(tab_fusion[:len(tab_fusion)//2]),
+                  tri_fusion(tab_fusion[len(tab_fusion)//2:]))
 
-taillesTableau = [10, 100, 1000, 10000, 100000]
+TAILLES_TABLEAU = [10, 100, 1000, 10000]
 
-for taille in taillesTableau:
-    tab = makeRandomTab(taille)
-    
-    fileWrite = open("benchmark/triBulle_"+str(taille)+".txt", "w")
+for taille in TAILLES_TABLEAU:
+    tab = make_random_tab(taille)
+
+    fileWrite = open("benchmark/tri_bulle_"+str(taille)+".txt", "w")
     timeBegin = time.time()
-    triBulle(tab.copy())
+    tri_bulle(tab.copy())
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
 
-    fileWrite = open("benchmark/triFusion_"+str(taille)+".txt", "w")
+    fileWrite = open("benchmark/tri_fusion_"+str(taille)+".txt", "w")
     timeBegin = time.time()
-    triFusion(tab.copy())
+    tri_fusion(tab.copy())
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
 
-    fileWrite = open("benchmark/triRapide_"+str(taille)+".txt", "w")
+    fileWrite = open("benchmark/tri_rapide_"+str(taille)+".txt", "w")
     timeBegin = time.time()
-    triRapide(tab.copy(), 0, taille-1)
+    tri_rapide(tab.copy(), 0, taille-1)
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
 
     #Calcul average for each sorts with 100 turns
-    fileWrite = open("benchmark/average/triBulle_"+str(taille)+".txt", "w")
+
+    fileWrite = open("benchmark/average/tri_bulle_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
-        tab2 = makeRandomTab(taille)
+        tab2 = make_random_tab(taille)
         timeBegin = time.time()
-        triBulle(tab2)
+        tri_bulle(tab2)
         timeEnd = time.time()
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
     fileWrite.close()
 
-    fileWrite = open("benchmark/average/triFusion_"+str(taille)+".txt", "w")
+    fileWrite = open("benchmark/average/tri_fusion_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
-        tab2 = makeRandomTab(taille)
+        tab2 = make_random_tab(taille)
         timeBegin = time.time()
-        triFusion(tab2)
+        tri_fusion(tab2)
         timeEnd = time.time()
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
     fileWrite.close()
 
-    fileWrite = open("benchmark/average/triRapide_"+str(taille)+".txt", "w")
+    fileWrite = open("benchmark/average/tri_rapide_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
-        tab2 = makeRandomTab(taille)
+        tab2 = make_random_tab(taille)
         timeBegin = time.time()
-        triRapide(tab2, 0, taille-1)
+        tri_rapide(tab2, 0, taille-1)
         timeEnd = time.time()
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
