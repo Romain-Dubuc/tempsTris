@@ -1,6 +1,5 @@
 """
-    Graph et temps de calcul moyenne
-    Faire le pdf
+    Algorithms to compare different sort methods (bulle/fusion/rapide)
 """
 import random
 import time
@@ -76,7 +75,7 @@ def fusion(tab_a, tab_b):
 
 def tri_fusion(tab_fusion):
     """
-    Sort an array with fusion sort methode
+    Sort an array with merge sort methode
     """
     if len(tab_fusion) == 1:
         return tab_fusion
