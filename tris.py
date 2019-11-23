@@ -108,7 +108,7 @@ for taille in TAILLES_TABLEAU:
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
 
-    #Calcul average for each sorts with 100 turns
+    #Average calculation for each sorts with 100 turns
 
     fileWrite = open("benchmark/average/tri_bulle_"+str(taille)+".txt", "w")
     sommeTimer = 0
