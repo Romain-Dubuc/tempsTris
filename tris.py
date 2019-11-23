@@ -82,28 +82,28 @@ def tri_fusion(tab_fusion):
     return fusion(tri_fusion(tab_fusion[:len(tab_fusion)//2]),
                   tri_fusion(tab_fusion[len(tab_fusion)//2:]))
 
-TAILLES_TABLEAU = [10, 100, 1000]
+TAILLES_TABLEAU = [10, 100, 1000, 10000, 100000]
 
 for taille in TAILLES_TABLEAU:
-    tab = make_random_tab(taille)
+    tabSort = make_random_tab(taille)
 
     fileWrite = open("benchmark/tri_bulle_"+str(taille)+".txt", "w")
     timeBegin = time.time()
-    tri_bulle(tab.copy())
+    tri_bulle(tabSort.copy())
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
 
     fileWrite = open("benchmark/tri_fusion_"+str(taille)+".txt", "w")
     timeBegin = time.time()
-    tri_fusion(tab.copy())
+    tri_fusion(tabSort.copy())
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
 
     fileWrite = open("benchmark/tri_rapide_"+str(taille)+".txt", "w")
     timeBegin = time.time()
-    tri_rapide(tab.copy(), 0, taille-1)
+    tri_rapide(tabSort.copy(), 0, taille-1)
     timeEnd = time.time()
     fileWrite.write(str(timeEnd - timeBegin))
     fileWrite.close()
@@ -113,9 +113,9 @@ for taille in TAILLES_TABLEAU:
     fileWrite = open("benchmark/average/tri_bulle_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
-        tab2 = make_random_tab(taille)
+        tabAverage = make_random_tab(taille)
         timeBegin = time.time()
-        tri_bulle(tab2)
+        tri_bulle(tabAverage)
         timeEnd = time.time()
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
@@ -124,9 +124,9 @@ for taille in TAILLES_TABLEAU:
     fileWrite = open("benchmark/average/tri_fusion_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
-        tab2 = make_random_tab(taille)
+        tabAverage = make_random_tab(taille)
         timeBegin = time.time()
-        tri_fusion(tab2)
+        tri_fusion(tabAverage)
         timeEnd = time.time()
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
@@ -135,9 +135,9 @@ for taille in TAILLES_TABLEAU:
     fileWrite = open("benchmark/average/tri_rapide_"+str(taille)+".txt", "w")
     sommeTimer = 0
     for i in range(100):
-        tab2 = make_random_tab(taille)
+        tabAverage = make_random_tab(taille)
         timeBegin = time.time()
-        tri_rapide(tab2, 0, taille-1)
+        tri_rapide(tabAverage, 0, taille-1)
         timeEnd = time.time()
         sommeTimer += (timeEnd - timeBegin)
     fileWrite.write(str(sommeTimer/100))
